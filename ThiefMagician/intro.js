@@ -136,7 +136,7 @@ class intro extends Phaser.Scene {
         let playerPos = {};
         playerPos.x = 772;
         playerPos.y = 1240;
-        playerPos.dir = "up";
+        playerPos.dir = "dashu";
         this.scene.start("intro2", { playerPos: playerPos });
       },
       this

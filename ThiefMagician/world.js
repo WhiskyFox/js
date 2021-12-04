@@ -14,6 +14,8 @@ class world extends Phaser.Scene {
 
   preload() {
 
+    
+
     // Step 1, load JSON
     this.load.tilemapTiledJSON("world","assets/maps.json");
 
@@ -35,6 +37,16 @@ class world extends Phaser.Scene {
 
     //item
     this.load.atlas('item','assets/item.png','assets/item.json');
+
+    //Icon
+    this.load.image("icon1", "assets/lemon.png");
+    this.load.image("icon2", "assets/roller.png");
+    this.load.image("icon3", "assets/weapon.png");
+
+    //audio
+    this.load.audio("Is","assets/cs.wav");
+    this.load.audio("Ds","assets/die.wav");
+
   }
 
   create() {
@@ -42,7 +54,8 @@ class world extends Phaser.Scene {
     
     console.log("*** world scene");
 
-    window.map = map;
+    
+
     //Step 3 - Create the map from main
     var map = this.make.tilemap({key:'world'});
 
@@ -73,49 +86,11 @@ class world extends Phaser.Scene {
      var simi1 = map.findObject("objectLayer", (obj) => obj.name ==="simi1");
      var simi2 = map.findObject("objectLayer", (obj) => obj.name ==="simi2");
 
-    this.anims.create({
-      key: "up",
-      frames:[
-        {key:'dashu', frame: 'b1.png'},
-        {key:'dashu', frame: 'b2.png'},
-        {key:'dashu', frame: 'b3.png'}, 
-    ],
-      frameRate: 10,
-      repeat: -1,
-    });
+    this.sound1 = this.sound.add('Is');
+    this.sound2 = this.sound.add('Bs');
+    this.sound3 = this.sound.add('Ds');
 
-    this.anims.create({
-      key: "left",
-      frames:[
-        {key:'dashu', frame:'l1.png'},
-        {key:'dashu', frame:'l2.png'},
-        {key:'dashu', frame:'l3.png'},
-    ],
-      frameRate: 10,
-      repeat: -1,
-    });
 
-    this.anims.create({
-      key: "down",
-      frames:[
-        {key:'dashu', frame: 'f1.png'},
-        {key:'dashu', frame: 'f2.png'},
-        {key:'dashu', frame: 'f3.png'}, 
-    ],
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "right",
-      frames:[
-        {key:'dashu', frame: 'r1.png'},
-        {key:'dashu', frame: 'r2.png'},
-        {key:'dashu', frame: 'r3.png'}, 
-    ],
-      frameRate: 10,
-      repeat: -1,
-    });
 
     this.anims.create({
       key:'hihi',
@@ -182,7 +157,7 @@ this.anims.create({
     // this.simi2 = this.physics.add.sprite (simi2.x, simi2.y, 'simi2').play('dudu');
   
     
-    window.player = this.player;
+    
 
     //npc movement
     this.simi1 = this.physics.add.sprite(333.33, 1073.33,"simi1").play("lala");
@@ -203,14 +178,29 @@ this.anims.create({
     this.player = this.physics.add.sprite(
       this.playerPos.x,
       this.playerPos.y,
-      this.playerPos.dir
-    );
+      this.playerPos.dir);
+      window.player = this.player;
     this.player.setScale(1).setSize(32, 32);
     this.player.setCollideWorldBounds(true); // don't go out of the this.map
 
+    //icon on left up
+    this.icon1 = this.physics.add.sprite 
+    (50,50,"icon1")
+    .setScrollFactor(0)
+    .setVisible(false);
+
+    this.icon2 = this.physics.add.sprite 
+    (100,50,"icon2")
+    .setScrollFactor(0)
+    .setVisible(false);
+
+    this.icon3 = this.physics.add.sprite 
+    (150,50,"icon3")
+    .setScrollFactor(0)
+    .setVisible(false);
 
     // get the tileIndex number in json, +1
-    this.itemcollect.setTileIndexCallback(3042, this.removeItem, this);
+    this.itemcollect.setTileIndexCallback(3042, this.removeItem3, this);
     
 
     // //npc border
@@ -368,7 +358,7 @@ this.anims.create({
       targets: this.fire,
       ease: "Linear",
       loop: -1, // loop forever
-      duration: 400,
+      duration: 1500,
       tweens: [
         {
           y: 782.67,
@@ -386,7 +376,7 @@ this.anims.create({
       targets: this.fire2,
       ease: "Linear",
       loop: -1, // loop forever
-      duration: 400,
+      duration: 1500,
       tweens: [
         {
           y: 298.67,
@@ -433,6 +423,15 @@ this.anims.create({
   }
 
   update(time, delta) {
+
+    if ( this.player.x > 721
+      && this. player.x< 874
+      && this. player.y< 71.67 && window.icon >=1){
+      
+      this.winLiao();
+      } 
+
+
 
     //check for room 1
     if (
@@ -529,16 +528,48 @@ this.anims.create({
     this.scene.start("room2",{ playerPos: playerPos});
   }
 
-  removeItem(player, tile) {
+  removeItem1(player, tile) {
+    this.sound1.play();
+
     // this.itemcollect++;
-    console.log("remove item", tile.index);
-    this.itemcollect.removeTileAt(tile.x, tile.y); // remove the item
+    console.log("remove item1", tile.index);
+    this.itemcollect.removeTileAt(tile.x, tile.y);
+    this.icon1.setVisible(true); 
+    window.icon++;
+    return false;
+  }
+  removeItem2(player, tile) {
+    this.sound1.play();
+
+    // this.itemcollect++;
+    console.log("remove item2", tile.index);
+    this.itemcollect.removeTileAt(tile.x, tile.y);
+    this.icon2.setVisible(true); 
+    window.icon++;
+    return false;
+  }
+  removeItem3(player, tile) {
+    this.sound1.play();
+
+    // this.itemcollect++;
+    console.log("remove item3", tile.index);
+    this.itemcollect.removeTileAt(tile.x, tile.y);
+    this.icon3.setVisible(true); 
+    window.icon++;
     return false;
   }
 
   enemyOverlap(){
+    this.sound3.play();
+
     console.log(" enemy overlap player");
+    // this.cameras.main.shake(200);
     this.scene.start("over");
+  }
+
+  winLiao(){
+    console.log(" player win");
+    this.scene.start("win");
   }
 
 } //////////// end of class world ////////////////////////

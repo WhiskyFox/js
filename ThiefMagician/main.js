@@ -31,6 +31,16 @@ class main extends Phaser.Scene {
 
     //item
     this.load.atlas('item','assets/item.png','assets/item.json');
+
+    //Icon
+    this.load.image("icon1", "assets/lemon.png");
+    this.load.image("icon2", "assets/roller.png");
+    this.load.image("icon3", "assets/weapon.png");
+
+     //audio
+     this.load.audio("Is","assets/cs.wav");
+     this.load.audio("Bs","assets/bg2.mp3");
+ 
   }
 
   create() {
@@ -38,6 +48,13 @@ class main extends Phaser.Scene {
     this.add.image(0, 0, 'cover').setOrigin(0, 0).setScale(1);
 
 
+    this.sound1 = this.sound.add('Is');
+    this.sound2 = this.sound.add('Bs');
+
+
+    this.music = this.sound.add("Bs",{loop:true,}).setVolume(0.1);
+    this.music.play();
+    
 
     this.anims.create({
       key: "up",
@@ -111,20 +128,22 @@ class main extends Phaser.Scene {
     repeat:-1,
   })
 
-  
+
 
     // Add any sound and music here
     // ( 0 = mute to 1 is loudest )
     //this.music = this.sound.add('bgMusic').setVolume(0.3) // 10% volume
 
     //this.music.play()
-    //window.music = this.music
+    // window.music = this.music
 
     // Add image and detect spacebar keypress
     //this.add.image(0, 0, 'main').setOrigin(0, 0);
 
     // Check for spacebar or any key here
     var spaceDown = this.input.keyboard.addKey("SPACE");
+    var key1 = this.input.keyboard.addKey(49);
+
 
     // On spacebar event, call the world scene
     spaceDown.on(
@@ -134,8 +153,19 @@ class main extends Phaser.Scene {
         let playerPos = {};
         playerPos.x = 772;
         playerPos.y = 1240;
-        playerPos.dir = "up";
+        playerPos.dir = "dashu";
         this.scene.start("intro", { playerPos: playerPos });
+      },
+      this
+    );
+
+    key1.on("down", function () {
+        console.log("Jump to world scene");
+        let playerPos = {};
+        playerPos.x = 772;
+        playerPos.y = 1240;
+        playerPos.dir = "dashu";
+        this.scene.start("world", { playerPos: playerPos });
       },
       this
     );

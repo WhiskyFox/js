@@ -13,6 +13,11 @@ class room2 extends Phaser.Scene {
 
     preload() {
 
+
+    this.sound1 = this.sound.add('Is');
+    this.sound2 = this.sound.add('Bs');
+    this.sound3 = this.sound.add('Ds');
+
     // Step 1, load JSON
     this.load.tilemapTiledJSON("room2","assets/maps3.json");
 
@@ -25,6 +30,10 @@ class room2 extends Phaser.Scene {
      //item
      this.load.atlas('item','assets/item.png','assets/item.json');
 
+     //Icon
+    this.load.image("icon1", "assets/lemon.png");
+    this.load.image("icon2", "assets/roller.png");
+    this.load.image("icon3", "assets/weapon.png");
     }
 
     create() {
@@ -71,13 +80,29 @@ class room2 extends Phaser.Scene {
       this.playerPos.dir
     );
 
+     //icon on left up
+     this.icon1 = this.physics.add.sprite 
+     (50,50,"icon1")
+     .setScrollFactor(0)
+     .setVisible(false);
+ 
+     this.icon2 = this.physics.add.sprite 
+     (100,50,"icon2")
+     .setScrollFactor(0)
+     .setVisible(false);
+ 
+     this.icon3 = this.physics.add.sprite 
+     (150,50,"icon3")
+     .setScrollFactor(0)
+     .setVisible(false);
+
      this.player.setScale(1).setSize(32, 32);
      this.player.setCollideWorldBounds(true); // don't go out of the this.map
  
      this.cursors = this.input.keyboard.createCursorKeys();
 
     // get the tileIndex number in json, +1
-    this.itemcollect.setTileIndexCallback(1643, this.removeItem, this);
+    this.itemcollect.setTileIndexCallback(1643, this.removeItem2, this);
  
      // make the camera follow the player
      this.cameras.main.startFollow(this.player);
@@ -201,18 +226,45 @@ world(player, tile) {
   let playerPos = {};
   playerPos.x = 926.67;
   playerPos.y = 189.33;
-  playerPos.dir = "left";
+  playerPos.dir = "dashu";
   this.scene.start("world", { playerPos: playerPos });
 }
 
 enemyOverlap(){
+  this.sound3.play();
+
   console.log(" enemy overlap player");
   this.scene.start("over");
 }
 
-removeItem(player, tile) {
-  console.log("remove item", tile.index);
-  this.itemcollect.removeTileAt(tile.x, tile.y); // remove the item
+removeItem1(player, tile) {
+  this.sound1.play();
+
+  // this.itemcollect++;
+  console.log("remove item1", tile.index);
+  this.itemcollect.removeTileAt(tile.x, tile.y);
+  this.icon1.setVisible(true); 
+  window.icon++;
+  return false;
+}
+removeItem2(player, tile) {
+  this.sound1.play();
+
+  // this.itemcollect++;
+  console.log("remove item2", tile.index);
+  this.itemcollect.removeTileAt(tile.x, tile.y);
+  this.icon2.setVisible(true); 
+  window.icon++;
+  return false;
+}
+removeItem3(player, tile) {
+  this.sound1.play();
+
+  // this.itemcollect++;
+  console.log("remove item3", tile.index);
+  this.itemcollect.removeTileAt(tile.x, tile.y);
+  this.icon3.setVisible(true); 
+  window.icon++;
   return false;
 }
 
