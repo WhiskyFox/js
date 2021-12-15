@@ -286,6 +286,18 @@ this.anims.create({
 
      // What will collider witg what layers
     this.physics.add.collider(this.itemcollect, this.player);
+
+
+    if (window.icon === 3) {
+      this.icon1.setVisible(true);
+      this.icon2.setVisible(true);
+      this.icon3.setVisible(true);
+      } else if (window.icon === 2) {
+      this.icon1.setVisible(true);
+      this.icon3.setVisible(true);
+      } else if (window.icon === 1) {
+      this.icon1.setVisible(true);
+      } 
    
   } /////////////////// end of create //////////////////////////////
 
@@ -426,7 +438,7 @@ this.anims.create({
 
     if ( this.player.x > 721
       && this. player.x< 874
-      && this. player.y< 71.67 && window.icon >=1){
+      && this. player.y< 71.67 && window.icon >=3){
       
       this.winLiao();
       } 

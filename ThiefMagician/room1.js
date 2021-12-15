@@ -126,6 +126,17 @@ class room1 extends Phaser.Scene {
     // What will collider witg what layers
     this.physics.add.collider(this.itemcollect2, this.player);
 
+    if (window.icon === 3) {
+      this.icon1.setVisible(true);
+      this.icon2.setVisible(true);
+      this.icon3.setVisible(true);
+      } else if (window.icon === 2) {
+      this.icon1.setVisible(true);
+      this.icon3.setVisible(true);
+      } else if (window.icon === 1) {
+      this.icon1.setVisible(true);
+      } 
+
 
     }
 
